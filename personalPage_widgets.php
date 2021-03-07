@@ -58,9 +58,9 @@ class personalPage_cursos_Widget extends WP_Widget {
                     $cursos = new WP_Query($args);
                     while($cursos->have_posts()): $cursos->the_post();
                 ?>
-                <li class="curso-sidebar">
+                <li class="sidebar-curso">
                     <div class="imagen">
-                        <?php the_post_thumbnail( 'thumbnail');?>
+                        <?php the_post_thumbnail('thumbnail');?>
                     </div>
 
                     <div class="contenido-curso">
@@ -107,6 +107,15 @@ class personalPage_cursos_Widget extends WP_Widget {
             value="<?php echo esc_attr( $cantidad ); ?>" >
         </p>
     <?php 
+
+
+    $title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'New title', 'text_domain' );
+    ?>
+    <p>
+        <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'text_domain' ); ?></label> 
+        <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
+    </p>
+    <?php 
 	}
 
 	/**
@@ -123,6 +132,7 @@ class personalPage_cursos_Widget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
 		$instance['cantidad'] = ( ! empty( $new_instance['cantidad'] ) ) ? sanitize_text_field( $new_instance['cantidad'] ) : '';
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
 
 		return $instance;
 	}
